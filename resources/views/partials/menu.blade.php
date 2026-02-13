@@ -96,6 +96,73 @@
             </div>
         @endcan
 
+      @can('manage_rides')
+
+    {{-- ALL RIDES --}}
+    <a href="{{ route('admin.rides.index') }}"
+       class="group flex items-center gap-3 px-3 py-2 rounded transition
+       {{ request()->is('admin/rides*')
+            ? 'bg-slate-800 text-white'
+            : 'hover:bg-slate-800 hover:pl-4' }}">
+        <i class="fas fa-taxi text-slate-400 group-hover:text-white transition"></i>
+        <span>All Rides</span>
+    </a>
+
+    {{-- COMMISSION SETTINGS --}}
+    <a href="{{ route('admin.settings.commission') }}"
+       class="group flex items-center gap-3 px-3 py-2 rounded transition
+       {{ request()->is('admin/settings/commission')
+            ? 'bg-slate-800 text-white'
+            : 'hover:bg-slate-800 hover:pl-4' }}">
+        <i class="fas fa-percentage text-slate-400 group-hover:text-white transition"></i>
+        <span>Commission Settings</span>
+    </a>
+
+    <a href="{{ route('admin.payouts.index') }}"
+   class="group flex items-center gap-3 px-3 py-2 rounded transition
+   {{ request()->is('admin/payouts*')
+        ? 'bg-slate-800 text-white'
+        : 'hover:bg-slate-800 hover:pl-4' }}">
+    <i class="fas fa-hand-holding-usd text-slate-400 group-hover:text-white transition"></i>
+    <span>Payout Requests</span>
+</a>
+
+@endcan
+
+
+
+@can('book_ride')
+<a href="{{ route('rides.index') }}"
+   class="group flex items-center gap-3 px-3 py-2 rounded transition
+   {{ request()->is('rides*')
+        ? 'bg-slate-800 text-white'
+        : 'hover:bg-slate-800 hover:pl-4' }}">
+    <i class="fas fa-map-marker-alt text-slate-400"></i>
+    My Rides
+</a>
+@endcan
+
+@can('accept_ride')
+<a href="{{ route('driver.rides.index') }}"
+   class="group flex items-center gap-3 px-3 py-2 rounded transition
+   {{ request()->is('driver/rides*')
+        ? 'bg-slate-800 text-white'
+        : 'hover:bg-slate-800 hover:pl-4' }}">
+    <i class="fas fa-motorcycle text-slate-400 group-hover:text-white transition"></i>
+    Driver Rides
+</a>
+
+<a href="{{ route('driver.payouts.index') }}"
+   class="group flex items-center gap-3 px-3 py-2 rounded transition
+   {{ request()->is('driver/payouts*')
+        ? 'bg-slate-800 text-white'
+        : 'hover:bg-slate-800 hover:pl-4' }}">
+    <i class="fas fa-wallet text-slate-400 group-hover:text-white transition"></i>
+    <span>My Payouts</span>
+</a>
+@endcan
+
+
         {{-- CHANGE PASSWORD --}}
         @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
             @can('profile_password_edit')
