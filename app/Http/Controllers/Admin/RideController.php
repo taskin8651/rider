@@ -13,6 +13,7 @@ class RideController extends Controller
     public function index()
     {
         $rides = Ride::latest()->get();
+        dd($rides);
         return view('rides.index', compact('rides'));
     }
 
