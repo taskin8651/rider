@@ -16,12 +16,12 @@ class Ride extends Model
         'drop_location',
         'status',
 
-        // 💰 Fare & earnings
+        // Earnings
         'fare',
         'admin_commission',
         'driver_earning',
 
-        // 📍 Live tracking
+        // Tracking
         'driver_lat',
         'driver_lng',
     ];
@@ -41,38 +41,19 @@ class Ride extends Model
     }
 
     /* ==========================
-       GLOBAL SCOPE (ACCESS RULES)
-       Admin   → all rides
-       Driver  → own rides
-       Customer→ own rides
+       USER BASED FILTER
     =========================== */
 
-    protected static function booted()
-{
-    static::addGlobalScope('ride_scope', function ($query) {
-
-        $user = auth()->user();
-
-        if (!$user) return;
-
-        // 🛡 Admin → all rides
+    public function scopeForUser($query, $user)
+    {
         if ($user->is_admin) {
-            return;
+            return $query;
         }
 
-        // 🛵 Driver → own rides
-        if ($user->can('accept_ride')) {
-            $query->where('driver_id', $user->id);
-            return;
+        if ($user->roles->contains('title', 'Driver')) {
+            return $query->where('driver_id', $user->id);
         }
 
-        // 👤 Customer → own rides
-        if ($user->can('book_ride')) {
-            $query->where('customer_id', $user->id);
-            return;
-        }
-
-    });
-}
-
+        return $query->where('customer_id', $user->id);
+    }
 }
